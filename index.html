@@ -6,7 +6,7 @@
 <title>婚礼邀请函</title>
 <meta property="og:title" content="张三 ♥ 李四 · 婚礼邀请">
 <meta property="og:description" content="诚邀您参加我们的婚礼 2026.10.01">
-<meta property="og:image" content="https://yourdomain.com/cover.jpg">
+<meta property="og:image" content="https://你的用户名.github.io/wedding-invite/cover.jpg">
 <style>
 body { margin:0; font-family:"PingFang SC","Microsoft YaHei",sans-serif;
        background:#fdf6f0; color:#5a3e36; text-align:center; }
@@ -15,15 +15,52 @@ body { margin:0; font-family:"PingFang SC","Microsoft YaHei",sans-serif;
 .time { margin:20px 0; font-size:1.1rem; }
 .btn { display:inline-block; margin:30px auto; padding:12px 28px;
        background:#c9a89c; color:#fff; border-radius:24px; text-decoration:none; }
+#musicBtn { position:fixed; bottom:20px; right:20px; z-index:999;
+            width:44px; height:44px; border-radius:50%; border:none;
+            background:rgba(201,168,156,0.85); color:#fff; font-size:20px;
+            cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.15); }
 </style>
 </head>
 <body>
+
+<audio id="bgm" src="./bg-music.mp3" loop preload="auto"></audio>
+<button id="musicBtn">🎵</button>
+
 <div class="hero">
   <p>我们结婚啦</p>
   <h1>张三 & 李四</h1>
   <div class="time">📅 2026年10月01日（周四） 11:18</div>
   <div>📍 XX酒店 · 三层宴会厅</div>
-  <a class="btn" href="https://uri.amap.com/marker?position=116.xxx,39.xxx&name=XX酒店">导航到此</a>
+  <a class="btn" href="https://uri.amap.com/marker?position=116.391,39.907&name=XX酒店">导航到此</a>
 </div>
+
+<script>
+var audio = document.getElementById('bgm');
+var btn = document.getElementById('musicBtn');
+var isPlaying = false;
+
+function toggleMusic() {
+  if (isPlaying) {
+    audio.pause();
+    btn.textContent = '🎵';
+  } else {
+    audio.play().catch(function(e){});
+    btn.textContent = '⏸';
+  }
+  isPlaying = !isPlaying;
+}
+
+btn.addEventListener('click', toggleMusic);
+
+// 首次点击页面任意位置自动播放
+document.addEventListener('click', function() {
+  if (!isPlaying) {
+    audio.play().catch(function(e){});
+    isPlaying = true;
+    btn.textContent = '⏸';
+  }
+}, { once: true });
+</script>
+
 </body>
 </html>
