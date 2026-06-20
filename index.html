@@ -15,23 +15,60 @@ body { margin:0; font-family:"PingFang SC","Microsoft YaHei",sans-serif;
 .time { margin:20px 0; font-size:1.1rem; }
 .btn { display:inline-block; margin:30px auto; padding:12px 28px;
        background:#c9a89c; color:#fff; border-radius:24px; text-decoration:none; }
-#musicBtn { position:fixed; bottom:20px; right:20px; z-index:999;
-            width:44px; height:44px; border-radius:50%; border:none;
-            background:rgba(201,168,156,0.85); color:#fff; font-size:20px;
-            cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.15); }
+
+/* 音乐控制按钮 - 固定在右下角 */
+#musicBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid rgba(201,168,156,0.6);
+  background: rgba(255,255,255,0.95);
+  color: #c9a89c;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+#musicBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+/* 音符旋转动画（播放时） */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+#musicBtn.playing {
+  animation: spin 3s linear infinite;
+  border-color: #c9a89c;
+}
 </style>
 </head>
 <body>
 
+<!-- 背景音乐 -->
 <audio id="bgm" src="./bg-music.mp3" loop preload="auto"></audio>
+
+<!-- 音乐控制按钮 -->
 <button id="musicBtn">🎵</button>
 
 <div class="hero">
-  <p>我们结婚啦</p>
-  <h1>张三 & 李四</h1>
+  <p>💍 我们结婚啦</p>
+  <h1>张三 &amp; 李四</h1>
   <div class="time">📅 2026年10月01日（周四） 11:18</div>
   <div>📍 XX酒店 · 三层宴会厅</div>
-  <a class="btn" href="https://uri.amap.com/marker?position=116.391,39.907&name=XX酒店">导航到此</a>
+  <a class="btn" href="https://uri.amap.com/marker?position=116.391,39.907&name=XX酒店">📍 导航到此</a>
 </div>
 
 <script>
@@ -39,27 +76,72 @@ var audio = document.getElementById('bgm');
 var btn = document.getElementById('musicBtn');
 var isPlaying = false;
 
-function toggleMusic() {
-  if (isPlaying) {
-    audio.pause();
-    btn.textContent = '🎵';
-  } else {
-    audio.play().catch(function(e){});
-    btn.textContent = '⏸';
+// iOS 微信 AudioContext unlock
+function unlockAudio() {
+  var ctx = new (window.AudioContext || window.webkitAudioContext)();
+  var source = ctx.createBufferSource();
+  source.buffer = ctx.createBuffer(1, 1, 44100);
+  source.connect(ctx.destination);
+  source.start(0);
+  if (ctx.state === 'suspended') {
+    ctx.resume();
   }
-  isPlaying = !isPlaying;
 }
 
-btn.addEventListener('click', toggleMusic);
-
-// 首次点击页面任意位置自动播放
-document.addEventListener('click', function() {
-  if (!isPlaying) {
-    audio.play().catch(function(e){});
+// 播放音乐
+function playMusic() {
+  if (isPlaying) return;
+  
+  unlockAudio(); // iOS 微信解锁
+  
+  audio.play().then(function() {
     isPlaying = true;
-    btn.textContent = '⏸';
+    btn.textContent = '♪';
+    btn.classList.add('playing');
+  }).catch(function(e) {
+    console.log('播放失败:', e);
+  });
+}
+
+// 暂停音乐
+function pauseMusic() {
+  audio.pause();
+  isPlaying = false;
+  btn.textContent = '🎵';
+  btn.classList.remove('playing');
+}
+
+// 切换播放/暂停
+function toggleMusic() {
+  if (isPlaying) {
+    pauseMusic();
+  } else {
+    playMusic();
   }
-}, { once: true });
+}
+
+// 按钮点击事件
+btn.addEventListener('click', function(e) {
+  e.stopPropagation();
+  toggleMusic();
+});
+
+// 页面加载完成后，用户首次点击任意位置自动播放
+var firstClickHandler = function() {
+  playMusic();
+  document.removeEventListener('click', firstClickHandler);
+  document.removeEventListener('touchend', firstClickHandler);
+};
+
+document.addEventListener('click', firstClickHandler, { once: true });
+document.addEventListener('touchend', firstClickHandler, { once: true });
+
+// 页面可见性变化时，如果音乐在播放，继续播放
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden && isPlaying && audio.paused) {
+    audio.play().catch(function(){});
+  }
+});
 </script>
 
 </body>
