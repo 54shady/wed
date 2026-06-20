@@ -3,107 +3,438 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>婚礼邀请函</title>
+<title>张三 ♥ 李四 · 婚礼邀请函</title>
 <meta property="og:title" content="张三 ♥ 李四 · 婚礼邀请">
 <meta property="og:description" content="诚邀您参加我们的婚礼 2026.10.01">
 <meta property="og:image" content="https://你的用户名.github.io/wedding-invite/cover.jpg">
 <style>
-body { margin:0; font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-       background:#fdf6f0; color:#5a3e36; text-align:center; }
-.hero { padding:60px 20px 40px; background:linear-gradient(135deg,#f8e8df,#fff5ee); }
-.hero h1 { font-size:2rem; margin:.5em 0; }
-.time { margin:20px 0; font-size:1.1rem; }
-.btn { display:inline-block; margin:30px auto; padding:12px 28px;
-       background:#c9a89c; color:#fff; border-radius:24px; text-decoration:none; }
+/* ===== 基础样式 ===== */
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #fdf6f0;
+  color: #5a3e36;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
 
-/* 音乐控制按钮 - 固定在右下角 */
+/* ===== 顶部封面 ===== */
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+}
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cover-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+.cover-overlay h1 {
+  font-size: 2.5rem;
+  letter-spacing: 8px;
+  margin-bottom: 10px;
+}
+.cover-overlay p {
+  font-size: 1.2rem;
+  letter-spacing: 4px;
+}
+.cover-date {
+  margin-top: 20px;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* ===== 内容区块 ===== */
+.section {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 60px 24px;
+}
+.section-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  position: relative;
+}
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: #c9a89c;
+  margin: 12px auto 0;
+}
+
+/* ===== 新人介绍 ===== */
+.couple-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 30px 0;
+}
+.couple-card {
+  text-align: center;
+}
+.couple-card img {
+  width: 160px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.couple-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+.couple-card p {
+  font-size: 0.9rem;
+  color: #8a7a72;
+}
+
+/* ===== 爱情故事 ===== */
+.story-text {
+  font-size: 1rem;
+  text-indent: 2em;
+  margin-bottom: 16px;
+  color: #5a3e36;
+}
+
+/* ===== 婚礼流程 ===== */
+.timeline {
+  position: relative;
+  padding-left: 30px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #c9a89c;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -26px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #c9a89c;
+  border: 2px solid #fff;
+}
+.timeline-item .time {
+  font-weight: bold;
+  color: #c9a89c;
+  font-size: 0.95rem;
+}
+.timeline-item .event {
+  font-size: 0.95rem;
+  color: #5a3e36;
+}
+
+/* ===== 照片墙 ===== */
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 20px 0;
+}
+.gallery img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+.gallery img:hover {
+  transform: scale(1.03);
+}
+.gallery .full {
+  grid-column: 1 / -1;
+  height: 260px;
+}
+
+/* ===== 地图 ===== */
+.map-container {
+  width: 100%;
+  height: 250px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ===== 宾客留言 ===== */
+.message-form {
+  margin: 20px 0;
+}
+.message-form textarea {
+  width: 100%;
+  height: 100px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  resize: vertical;
+  font-family: inherit;
+}
+.message-form button {
+  display: block;
+  margin: 12px auto 0;
+  padding: 10px 32px;
+  background: #c9a89c;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.message-form button:hover {
+  background: #b89284;
+}
+
+/* ===== 底部 ===== */
+.footer {
+  text-align: center;
+  padding: 40px 24px;
+  background: #f5ede8;
+  color: #8a7a72;
+  font-size: 0.9rem;
+}
+.footer .hearts {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+/* ===== 音乐按钮 ===== */
 #musicBtn {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 999;
-  width: 52px;
-  height: 52px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  border: 2px solid rgba(201,168,156,0.6);
-  background: rgba(255,255,255,0.95);
+  border: 2px solid rgba(201,168,156,0.5);
+  background: rgba(253,246,240,0.92);
   color: #c9a89c;
-  font-size: 22px;
+  font-size: 18px;
   cursor: pointer;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
   display: flex;
   align-items: center;
   justify-content: center;
   outline: none;
+  transition: all 0.3s;
 }
-
-#musicBtn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+#musicBtn.playing {
+  animation: spin 3s linear infinite;
+  border-color: #c9a89c;
 }
-
-/* 音符旋转动画（播放时） */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-#musicBtn.playing {
-  animation: spin 3s linear infinite;
-  border-color: #c9a89c;
+/* ===== 响应式 ===== */
+@media (max-width: 480px) {
+  .cover-overlay h1 { font-size: 1.8rem; }
+  .couple-grid { grid-template-columns: 1fr; }
+  .gallery { grid-template-columns: 1fr; }
+  .section { padding: 40px 16px; }
 }
 </style>
 </head>
 <body>
 
-<!-- 背景音乐 -->
+<!-- ===== 背景音乐 ===== -->
 <audio id="bgm" src="./bg-music.mp3" loop preload="auto"></audio>
-
-<!-- 音乐控制按钮 -->
 <button id="musicBtn">🎵</button>
 
-<div class="hero">
-  <p>💍 我们结婚啦</p>
-  <h1>张三 &amp; 李四</h1>
-  <div class="time">📅 2026年10月01日（周四） 11:18</div>
-  <div>📍 XX酒店 · 三层宴会厅</div>
-  <a class="btn" href="https://uri.amap.com/marker?position=116.391,39.907&name=XX酒店">📍 导航到此</a>
-</div>
+<!-- ===== 顶部封面 ===== -->
+<section class="cover">
+  <img src="./cover.jpg" alt="婚礼封面">
+  <div class="cover-overlay">
+    <p>WE ARE GETTING MARRIED</p>
+    <h1>张三 &amp; 李四</h1>
+    <p class="cover-date">📅 2026.10.01 · 11:18</p>
+  </div>
+</section>
+
+<!-- ===== 邀请语 ===== -->
+<section class="section">
+  <div class="section-title">❤ 诚挚邀请</div>
+  <p style="text-indent:2em; font-size:1.05rem;">
+    谨定于公元2026年10月1日（星期四），
+    我们将举行结婚典礼，届时恭请您莅临，
+    见证我们的幸福时刻，与我们共享喜悦。
+  </p>
+  <p style="text-align:center; margin-top:20px; color:#c9a89c; font-size:1.1rem;">
+    —— 新郎 张三 · 新娘 李四 敬邀
+  </p>
+</section>
+
+<!-- ===== 新人介绍 ===== -->
+<section class="section">
+  <div class="section-title">👰 新郎 · 新娘</div>
+  <div class="couple-grid">
+    <div class="couple-card">
+      <img src="./groom.jpg" alt="新郎">
+      <h3>张 三</h3>
+      <p>温柔体贴 · 爱摄影</p>
+    </div>
+    <div class="couple-card">
+      <img src="./bride.jpg" alt="新娘">
+      <h3>李 四</h3>
+      <p>善良可爱 · 爱画画</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 爱情故事 ===== -->
+<section class="section">
+  <div class="section-title">💕 我们的故事</div>
+  <p class="story-text">
+    2018年的秋天，我们在大学图书馆相遇。那天阳光很好，她坐在窗边看书，
+    阳光洒在她的侧脸上，那一刻我就知道，这就是我要找的人。
+  </p>
+  <p class="story-text">
+    从校园到职场，从青涩到成熟，我们一起走过了8个春夏秋冬。
+    一起看过海边的日出，一起爬过雪山的峰顶，一起熬过加班的深夜，
+    也一起分享了无数个平凡却温暖的日子。
+  </p>
+  <p class="story-text">
+    2025年的情人节，我在我们第一次约会的餐厅向她求婚。
+    当她点头的那一刻，我知道，我们的人生即将翻开新的篇章。
+  </p>
+  <div class="gallery">
+    <img src="./photo1.jpg" alt="我们的照片1">
+    <img src="./photo2.jpg" alt="我们的照片2">
+    <img src="./photo3.jpg" alt="我们的照片3" class="full">
+  </div>
+</section>
+
+<!-- ===== 婚礼流程 ===== -->
+<section class="section">
+  <div class="section-title">📋 婚礼流程</div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="time">10:30 - 11:00</div>
+      <div class="event">🎊 嘉宾签到 · 合影留念</div>
+    </div>
+    <div class="timeline-item">
+      <div class="time">11:08 - 11:18</div>
+      <div class="event">💒 婚礼仪式正式开始</div>
+    </div>
+    <div class="timeline-item">
+      <div class="time">11:18 - 11:38</div>
+      <div class="event">💍 交换戒指 · 宣誓</div>
+    </div>
+    <div class="timeline-item">
+      <div class="time">11:38 - 12:00</div>
+      <div class="event">📸 全家福 · 宾客合影</div>
+    </div>
+    <div class="timeline-item">
+      <div class="time">12:08</div>
+      <div class="event">🍽️ 婚宴正式开始</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 婚礼地点 ===== -->
+<section class="section">
+  <div class="section-title">📍 婚礼地点</div>
+  <p style="text-align:center; margin-bottom:8px;">
+    <strong>XX大酒店 · 三层宴会厅</strong>
+  </p>
+  <p style="text-align:center; font-size:0.9rem; color:#8a7a72; margin-bottom:16px;">
+    北京市朝阳区建国路88号
+  </p>
+  <div class="map-container">
+    <iframe 
+      src="https://uri.amap.com/marker?position=116.391,39.907&name=XX大酒店&src=invite"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <p style="text-align:center; margin-top:12px;">
+    <a class="btn" href="https://uri.amap.com/marker?position=116.391,39.907&name=XX大酒店"
+       style="display:inline-block; padding:10px 24px; background:#c9a89c; color:#fff; 
+              border-radius:20px; text-decoration:none; font-size:0.95rem;">
+      📱 打开导航
+    </a>
+  </p>
+</section>
+
+<!-- ===== 宾客留言 ===== -->
+<section class="section">
+  <div class="section-title">✍️ 祝福留言</div>
+  <p style="text-align:center; font-size:0.9rem; color:#8a7a72; margin-bottom:16px;">
+    留下您的祝福，我们将在婚礼现场展示 ❤
+  </p>
+  <div class="message-form">
+    <textarea placeholder="写下您对新人的祝福..."></textarea>
+    <button onclick="alert('感谢您的祝福！❤️')">送出祝福</button>
+  </div>
+</section>
+
+<!-- ===== 底部 ===== -->
+<section class="footer">
+  <div class="hearts">💑</div>
+  <p>感谢您的到来</p>
+  <p>让我们共同见证这份美好</p>
+  <p style="margin-top:12px; font-size:0.8rem;">张三 · 李四 敬邀</p>
+</section>
 
 <script>
+// ===== 音乐控制 =====
 var audio = document.getElementById('bgm');
 var btn = document.getElementById('musicBtn');
 var isPlaying = false;
 
-// iOS 微信 AudioContext unlock
 function unlockAudio() {
   var ctx = new (window.AudioContext || window.webkitAudioContext)();
   var source = ctx.createBufferSource();
   source.buffer = ctx.createBuffer(1, 1, 44100);
   source.connect(ctx.destination);
   source.start(0);
-  if (ctx.state === 'suspended') {
-    ctx.resume();
-  }
+  if (ctx.state === 'suspended') ctx.resume();
 }
 
-// 播放音乐
 function playMusic() {
   if (isPlaying) return;
-  
-  unlockAudio(); // iOS 微信解锁
-  
+  unlockAudio();
   audio.play().then(function() {
     isPlaying = true;
     btn.textContent = '♪';
     btn.classList.add('playing');
-  }).catch(function(e) {
-    console.log('播放失败:', e);
-  });
+  }).catch(function(){});
 }
 
-// 暂停音乐
 function pauseMusic() {
   audio.pause();
   isPlaying = false;
@@ -111,37 +442,18 @@ function pauseMusic() {
   btn.classList.remove('playing');
 }
 
-// 切换播放/暂停
-function toggleMusic() {
-  if (isPlaying) {
-    pauseMusic();
-  } else {
-    playMusic();
-  }
-}
-
-// 按钮点击事件
 btn.addEventListener('click', function(e) {
   e.stopPropagation();
-  toggleMusic();
+  isPlaying ? pauseMusic() : playMusic();
 });
 
-// 页面加载完成后，用户首次点击任意位置自动播放
-var firstClickHandler = function() {
+// 首次点击自动播放
+document.addEventListener('click', function() {
   playMusic();
-  document.removeEventListener('click', firstClickHandler);
-  document.removeEventListener('touchend', firstClickHandler);
-};
-
-document.addEventListener('click', firstClickHandler, { once: true });
-document.addEventListener('touchend', firstClickHandler, { once: true });
-
-// 页面可见性变化时，如果音乐在播放，继续播放
-document.addEventListener('visibilitychange', function() {
-  if (!document.hidden && isPlaying && audio.paused) {
-    audio.play().catch(function(){});
-  }
-});
+}, { once: true });
+document.addEventListener('touchend', function() {
+  playMusic();
+}, { once: true });
 </script>
 
 </body>
